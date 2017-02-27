@@ -15,7 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from electron import views
 
 urlpatterns = [
+    # index page
+    url(r'^$', views.index, name='index'),
+    # login page
+    url(r'^login/$', auth_views.login, name='login'),
+    # logout page
+    url(r'^logout/$', auth_views.logout, name='logout'),
+    # admin
     url(r'^admin/', admin.site.urls),
+
 ]
