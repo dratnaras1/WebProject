@@ -27,5 +27,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     # admin
     url(r'^admin/', admin.site.urls),
+    # registration
+    url(r'^register', auth_views.register, name='register'),
 
 ]
