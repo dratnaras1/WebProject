@@ -15,10 +15,17 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 class Review(models.Model):
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     review = models.TextField()
     rating = models.IntegerField()
     user = models.ForeignKey(User)
 
+class Basket(models.Model):
+    user = models.ForeignKey(User)
+    products = models.ForeignKey(Product, on_delete=models.CASCADE)
 
+class Order(models.Model):
+    products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User)
+    total = models.FloatField()
 
