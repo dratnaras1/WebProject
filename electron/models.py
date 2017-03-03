@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+# models
 class Category(models.Model):
     type = models.CharField(max_length=255)
 
