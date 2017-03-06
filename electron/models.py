@@ -29,4 +29,3 @@ class Order(models.Model):
     products = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User)
     total = models.FloatField()
-
