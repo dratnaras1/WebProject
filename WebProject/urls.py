@@ -21,6 +21,8 @@ from electron import views
 urlpatterns = [
     # index page
     url(r'^$', views.index, name='index'),
+    # register page
+    url(r'^register/$', views.UserFormView.as_view(), name='register'),
     # login page
     url(r'^login/$', auth_views.login, name='login'),
     # logout page
