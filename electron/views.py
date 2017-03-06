@@ -10,14 +10,10 @@ from .models import Product
 # hello test
 
 def index(request):
-    products = Product.objects.order_by('-name')[:5]
-
+    products = Product.objects.order_by('-name')[:4]
     # print(products.length())
-    print(products)
     context = {'products': products}
-
     return render(request,'electron/index.html', context)
-    return render(request,'electron/index.html')
 
 class UserFormView(View):
     form_class = UserRegistration
