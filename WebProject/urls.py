@@ -21,6 +21,12 @@ from electron import views
 urlpatterns = [
     # index page
     url(r'^$', views.index, name='index'),
+    # products page
+    url(r'^products$', views.products, name='products'),
+    # products by category
+    url(r'^products/(?P<category>[\w ]+)$', views.products_category, name='products_category'),
+    # individual product
+    url(r'^products/product/(?P<id>[\d]+)$', views.individual_product, name='individual_product'),
     # register page
     url(r'^register/$', views.UserFormView.as_view(), name='register'),
     # login page

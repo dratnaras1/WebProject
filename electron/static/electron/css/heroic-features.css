@@ -19,3 +19,8 @@ body {
 footer {
     margin: 50px 0;
 }
+
+#imageBannerContainer{
+    width: 800px;
+    height: 300px;
+}

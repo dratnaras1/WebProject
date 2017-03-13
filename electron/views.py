@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.template import loader
 
 from django.shortcuts import render
-from .models import Product
+from .models import Product, Category
 # Create your views here.
 # hello test
 
@@ -15,6 +15,28 @@ def index(request):
     # print(products.length())
     context = {'products': products}
     return render(request,'electron/index.html', context)
+
+def products(request):
+    products = Product.objects.all()
+    categories = Category.objects.all()
+    context = {'products': products,
+               'categories' : categories}
+    return render(request, 'electron/products.html', context)
+
+def products_category(request, category):
+    categories = Category.objects.all()
+    category_db = Category.objects.filter(type = category)
+    products = Product.objects.filter(category = category_db)
+    context = {'products':products,
+               'categories' : categories}
+    return render(request, 'electron/products_category.html', context)
+
+def individual_product(request, id):
+    product = Product.objects.filter(pk=id)
+    categories = Category.objects.all()
+    context = {'product':product,
+               'categories' : categories}
+    return render(request, 'electron/individual_product.html', context)
 
 class UserFormView(View):
     form_class = UserRegistration
