@@ -30,7 +30,7 @@ urlpatterns = [
     # register page
     url(r'^register/$', views.UserFormView.as_view(), name='register'),
     # login page
-    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^login/$', views.login_user, name='login'),
     # logout page
     url(r'^logout/$', auth_views.logout, name='logout'),
     # admin

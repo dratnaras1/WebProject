@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.views.generic import View
-from .forms import UserRegistration
-from django.http import HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
-
+# from django.contrib.auth.models import User
 from django.shortcuts import render
-from .models import Product, Category
+from .models import Product, Category, User
+from django.views import View
+from .forms import UserRegistration, UserLogin
+from django.views.generic import View
 # Create your views here.
 # hello test
+
 
 def index(request):
     products = Product.objects.order_by('-name')[:4]
@@ -16,12 +19,14 @@ def index(request):
     context = {'products': products}
     return render(request,'electron/index.html', context)
 
+
 def products(request):
     products = Product.objects.all()
     categories = Category.objects.all()
     context = {'products': products,
                'categories' : categories}
     return render(request, 'electron/products.html', context)
+
 
 def products_category(request, category):
     categories = Category.objects.all()
@@ -31,6 +36,7 @@ def products_category(request, category):
                'categories' : categories}
     return render(request, 'electron/products_category.html', context)
 
+
 def individual_product(request, id):
     product = Product.objects.filter(pk=id)
     categories = Category.objects.all()
@@ -38,19 +44,50 @@ def individual_product(request, id):
                'categories' : categories}
     return render(request, 'electron/individual_product.html', context)
 
+
+def login_user(request):
+    if request.user.is_authenticated:
+        # redirect to shop
+        return redirect('index')
+    else:
+        error = None
+        if request.method == 'POST':
+            form = UserLogin(request.POST)
+
+            if form.is_valid():
+                email = form.cleaned_data['email']
+                password = form.cleaned_data['password']
+
+                # check if username exists
+                if User.objects.filter(email=email).exists():
+                    user = authenticate(username=email, password=password)
+
+                    # if user not null login
+                    if user is not None:
+                        login(request, user)
+                        return redirect('index')
+                    else:
+                        error = 'Email or password is incorrect'
+                else:
+                    error = 'Email does not exist'
+            else:
+                error = 'Form details are invalid.'
+        else:
+            form = UserLogin()
+    context = {'form': form, 'error': error, 'logged_in': False}
+    return render(request, 'registration/login.html', context)
+
 class UserFormView(View):
     form_class = UserRegistration
     template_name = "registration/registration.html"
 
-    #display the blank form
+    # display the blank form
     def get(self, request):
         form = self.form_class(None)
         return render(request, self.template_name, {'form': form})
 
-    #submit form data
+    # submit form data
     def post(self, request):
-        template_index = loader.get_template("electron/index.html")
-        template_registration = loader.get_template("registration/registration.html")
 
         form = self.form_class(request.POST)
 
@@ -58,8 +95,8 @@ class UserFormView(View):
 
             user = form.save(commit=False)
 
-            #clean/normalised data
-            username = form.cleaned_data['username']
+            # clean/normalised data
+            email = form.cleaned_data['email']
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             addressline1 = form.cleaned_data['addressline1']
@@ -69,36 +106,18 @@ class UserFormView(View):
             password = form.cleaned_data['password']
             password_confirm = form.cleaned_data['password_confirm']
             user.set_password(password)
-            user.save()
 
-            #returns user objects if details are correct
-            user = authenticate(username=username, password=password, first_name=first_name, last_name=last_name,
-                                addressline1=addressline1, addressline2=addressline2, city=city, phone=phone,
-                                password_confirm=password_confirm)
+            if password == password_confirm:
+                print('Passwords  match')
+                user = User.objects.create_user(email=email, password=password, first_name=first_name,
+                                                last_name=last_name, addressline1=addressline1,
+                                                addressline2=addressline2, city=city, phone=phone)
 
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect('index')
-
-                else:
-                    # return http resp
-                    return HttpResponse(template_index.render("", request))
+                login(request, user)
+                return redirect('index')
 
             else:
-                return HttpResponse(template_registration.render("", request))
-                # return http resp
+                return HttpResponse('<h1> password do not match </h1>')
+
         else:
-            return HttpResponse(template_registration.render("", request))
-            # return http resp
-
-    def clean_password2(self):
-        password = self.clean_data.get('password')
-        password_confirm = self.clean_data.get('password_confirm')
-
-        if not password_confirm:
-            raise forms.ValidationError("You must confirm your password")
-        if password != password_confirm:
-            raise forms.ValidationError("Your password does not match")
-
-        return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {'form': form, 'error': 'Error!'})

@@ -120,4 +120,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+AUTH_USER_MODEL ='electron.User'
+
 LOGIN_REDIRECT_URL = 'index'
