@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.template import loader
 from django.contrib.auth import authenticate, login
 from django.views.generic import View
 from .forms import UserRegistration
 from django.http import HttpResponse
 from django.template import loader
+from .models import Basket
+import basket_controller
+
 
 from django.shortcuts import render
 from .models import Product, Category
@@ -15,6 +20,7 @@ def index(request):
     # print(products.length())
     context = {'products': products}
     return render(request,'electron/index.html', context)
+
 
 def products(request):
     products = Product.objects.all()
@@ -37,6 +43,28 @@ def individual_product(request, id):
     context = {'product':product,
                'categories' : categories}
     return render(request, 'electron/individual_product.html', context)
+
+def show_basket(request):
+    basketItemsForUser = basket_controller.getItemsForUser(request)
+    totalPriceForUser = basket_controller.getTotalPriceForBasket(request)
+    template = loader.get_template('electron/shopping-basket.html')
+    context = {
+        'allBasketItems': basketItemsForUser,
+        'totalPrice': totalPriceForUser,
+    }
+    return HttpResponse(template.render(context, request))
+
+def delete_item(request):
+    basketItemsForUser = basket_controller.getItemsForUser(request)
+    totalPriceForUser = basket_controller.getTotalPriceForBasket(request)
+    template = loader.get_template('electron/shopping-basket.html')
+    quantity = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    context = {
+        'quantity': quantity,
+        'allBasketItems': basketItemsForUser,
+        'totalPrice': totalPriceForUser,
+    }
+    return HttpResponse(template.render(context, request))
 
 class UserFormView(View):
     form_class = UserRegistration

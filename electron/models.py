@@ -26,6 +26,7 @@ class Review(models.Model):
 class Basket(models.Model):
     user = models.ForeignKey(User)
     products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
 
 class Order(models.Model):
     products = models.ForeignKey(Product, on_delete=models.CASCADE)
