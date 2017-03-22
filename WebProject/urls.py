@@ -16,8 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from electron import views
-
+from electron import views, basket_controller
 urlpatterns = [
     # index page
     url(r'^$', views.index, name='index'),
@@ -33,6 +32,15 @@ urlpatterns = [
     url(r'^login/$', views.login_user, name='login'),
     # logout page
     url(r'^logout/$', auth_views.logout, name='logout'),
+    # add item to basket
+    url(r'^add/(?P<id>[\d]+)/$', basket_controller.add_to_basket, name='add-to-basket'),
+    # show basket
+    url(r'^shopping-basket/$', views.show_basket, name='show-basket'),
+    # empty basket
+    url(r'^empty-basket/$', basket_controller.empty_basket, name='empty-basket'),
+    # delete item from basket
+    url(r'^delete-item/(?P<id>[\d]+)/$', basket_controller.delete_item, name='delete-item'),
     # admin
     url(r'^admin/', admin.site.urls),
 ]
+

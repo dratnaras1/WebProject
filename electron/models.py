@@ -1,11 +1,37 @@
 from __future__ import unicode_literals
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import User, AbstractBaseUser, BaseUserManager
 from django.db import models
-from django import forms
 
 
 # Create your models here.
 
+# models
+class Category(models.Model):
+    type = models.CharField(max_length=255)
+
+class Product(models.Model):
+    name = models.CharField(max_length=50)
+    price = models.FloatField()
+    description = models.TextField()
+    image = models.ImageField()
+    stock = models.IntegerField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    review = models.TextField()
+    rating = models.IntegerField()
+    user = models.ForeignKey(User)
+
+class Basket(models.Model):
+    user = models.ForeignKey(User)
+    products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+
+class Order(models.Model):
+    products = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User)
+    total = models.FloatField()
 
 class UserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, addressline1, addressline2, city, phone, password=None):
