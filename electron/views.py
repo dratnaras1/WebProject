@@ -131,6 +131,7 @@ class UserFormView(View):
             last_name = form.cleaned_data['last_name']
             addressline1 = form.cleaned_data['addressline1']
             addressline2 = form.cleaned_data['addressline2']
+            postcode = form.cleaned_data['postcode']
             city = form.cleaned_data['city']
             phone = form.cleaned_data['phone']
             password = form.cleaned_data['password']
@@ -141,7 +142,7 @@ class UserFormView(View):
                 print('Passwords  match')
                 user = User.objects.create_user(email=email, password=password, first_name=first_name,
                                                 last_name=last_name, addressline1=addressline1,
-                                                addressline2=addressline2, city=city, phone=phone)
+                                                addressline2=addressline2, postcode=postcode, city=city, phone=phone)
 
                 login(request, user)
                 return redirect('index')
