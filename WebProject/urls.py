@@ -34,6 +34,10 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     # add item to basket
     url(r'^add/(?P<id>[\d]+)/$', basket_controller.add_to_basket, name='add-to-basket'),
+    # add quantity
+    url(r'^add-quantity/(?P<id>[\d]+)/$', basket_controller.add_quantity, name='add-quantity'),
+    # minus quantity
+    url(r'^minus-quantity/(?P<id>[\d]+)/$', basket_controller.minus_quantity, name='minus-quantity'),
     # show basket
     url(r'^shopping-basket/$', views.show_basket, name='show-basket'),
     # empty basket

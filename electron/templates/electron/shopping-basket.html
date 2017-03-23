@@ -2,7 +2,6 @@
 {% block content %}
 <!-- Page Content -->
 <div class="container">
-
     <div class="row">
         <div class="container">
             <header class="jumbotron hero-spacer">
@@ -23,13 +22,17 @@
                 <tr>
                     <td>{{queries.products.name}}</td>
                     <td>£{{queries.products.price}}</td>
-                    <td>{{queries.quantity}}</td>
+                    <td>
+                        <a href="{% url 'add-quantity' id=queries.products.id %}"><span class="glyphicon glyphicon-plus"></span></a>
+                        {{queries.quantity}}
+                        <a href="{% url 'minus-quantity' id=queries.products.id %}"><span class="glyphicon glyphicon-minus"></span></a>
+                    </td>
                     <td><a href="{% url 'delete-item' id=queries.products.id%}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                 </tr>
                 {% endfor %}
                 <tr>
                     <td><b>Total ({{ allBasketItems.count }} items):</b></td>
-                    <td><b>£{{ totalPrice }}</b></td>
+                    <td><b>£{{ totalPrice | floatformat:2 }}</b></td>
                     <td></td>
                     <td><a href="{% url 'empty-basket' %}">Empty Basket</a></td>
                 </tr>

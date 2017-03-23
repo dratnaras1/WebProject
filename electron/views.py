@@ -88,9 +88,11 @@ def show_basket(request):
     basketItemsForUser = basket_controller.getItemsForUser(request)
     totalPriceForUser = basket_controller.getTotalPriceForBasket(request)
     template = loader.get_template('electron/shopping-basket.html')
+    quantity = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     context = {
         'allBasketItems': basketItemsForUser,
         'totalPrice': totalPriceForUser,
+        'quantity': quantity,
     }
     return HttpResponse(template.render(context, request))
 
@@ -98,9 +100,7 @@ def delete_item(request):
     basketItemsForUser = basket_controller.getItemsForUser(request)
     totalPriceForUser = basket_controller.getTotalPriceForBasket(request)
     template = loader.get_template('electron/shopping-basket.html')
-    quantity = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
     context = {
-        'quantity': quantity,
         'allBasketItems': basketItemsForUser,
         'totalPrice': totalPriceForUser,
     }

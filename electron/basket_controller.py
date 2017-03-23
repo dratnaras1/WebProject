@@ -1,5 +1,5 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.shortcuts import redirect
+from django.shortcuts import redirect,render
 from django.core.urlresolvers import reverse_lazy
 from .models import Basket, Product
 
@@ -17,6 +17,23 @@ def add_to_basket(request, id):
         query = Basket(user = request.user, products = product, quantity = 1)
         query.save()
         return redirect('index')
+
+def add_quantity(request, id):
+    product = Product.objects.get(pk=id)
+    query = Basket.objects.get(user = request.user, products = product)
+    query.quantity += 1
+    query.save()
+    return redirect('show-basket')
+
+def minus_quantity(request, id):
+    product = Product.objects.get(pk=id)
+    query = Basket.objects.get(user = request.user, products = product)
+    if query.quantity == 1:
+        return redirect('show-basket')
+    else:
+        query.quantity -= 1
+        query.save()
+        return redirect('show-basket')
 
 def empty_basket(request):
     query = Basket.objects.filter(user = request.user)
