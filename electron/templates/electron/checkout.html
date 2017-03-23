@@ -1,0 +1,73 @@
+{% extends 'electron/base.html' %}
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="container" >
+            <div class = "row">
+                <header class="jumbotron hero-spacer">
+                    <h1>Checkout</h1>
+                </header>
+            </div>
+
+
+            <div class="row" style="border:1px solid #cecece;">
+                <div class = "col-sm-3" >
+                    <b>Delivery</b>
+                </div>
+                <div class = "col-sm-6">
+                    {{user.addressline1}}
+                    <br>
+                    {{user.addressline2}}
+                    <br>
+                    {{user.city}}
+                    <br>
+                    {{user.postcode}}
+                </div>
+            </div>
+            <br><br>
+            <div class = "row" style="border:1px solid #cecece;">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+                        {% for queries in allBasketItems %}
+                        <tr>
+                            <td>{{queries.products.name}}</td>
+                            <td>£{{queries.products.price}}</td>
+                            <td>{{queries.quantity}}</td>
+                            <td><a href="{% url 'delete-item' id=queries.products.id%}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td><b>Order Total ({{ allBasketItems.count }} items):</b></td>
+                            <td><b>£{{ totalPrice }}</b></td>
+                            <td></td>
+                            <!--<td><a href="{% url 'empty-basket' %}">Empty Basket</a></td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+            </div>
+            <br><br>
+            <div class="row" style="border:1px solid #cecece;">
+                <button  type="button" class="btn btn-warning btn-sm pull-left">Buy Now</button>
+                <a href="{% url 'place_order' %}">Buy Now</a>
+                <div>
+                    <p>  By placing your order, you agree to Electron's Privacy Notice, Conditions of Use & Sale and Cookies & Internet Advertising.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+{% endblock %}

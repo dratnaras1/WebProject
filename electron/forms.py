@@ -11,11 +11,12 @@ class UserRegistration(forms.ModelForm):
     addressline1 = forms.CharField(label='Address Line 1', widget=forms.TextInput, required=True)
     addressline2 = forms.CharField(label='Address Line 2', widget=forms.TextInput, required=False)
     city = forms.CharField(label='City', widget=forms.TextInput, required=True)
+    postcode = forms.CharField(label='Postcode', widget=forms.TextInput, required=True)
     phone = forms.CharField(label='Contact Number', widget=forms.TextInput, required=True)
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'password_confirm', 'first_name', 'last_name', 'addressline1', 'addressline2', 'city', 'phone']
+        fields = ['email', 'password', 'password_confirm', 'first_name', 'last_name', 'addressline1', 'addressline2', 'city', 'phone', 'postcode']
 
 
 class UserLogin(forms.Form):
