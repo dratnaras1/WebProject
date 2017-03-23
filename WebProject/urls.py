@@ -42,6 +42,10 @@ urlpatterns = [
     url(r'^delete-item/(?P<id>[\d]+)/$', basket_controller.delete_item, name='delete-item'),
     # review page
     url(r'^review/(?P<id>[\d]+)$', views.review, name='review'),
+    # checkout
+    url(r'^checkout/$', views.checkout, name='checkout'),
+    #
+    url(r'^placeOrder/$', views.place_order, name='place_order'),
     # admin
     url(r'^admin/', admin.site.urls),
 ]

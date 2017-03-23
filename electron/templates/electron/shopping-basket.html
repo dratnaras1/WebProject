@@ -35,53 +35,12 @@
                 </tr>
                 </tbody>
             </table>
-
+            <button  type="button" class="btn btn-info btn-block"></button>
+            <a href = "{% url 'checkout' %}">Proceed to Checkout</a>
         </div>
 
 
-        <!--<table style="border-spacing: 20px;">-->
-        <!--<tr>-->
-        <!--<td><h3>Product</h3></td>-->
-        <!--<td></td>-->
-        <!--<td></td>-->
-        <!--<td><h3>Price</h3></td>-->
-        <!--<td></td>-->
-        <!--<td></td>-->
-        <!--<td><h3>Quantity</h3></td>-->
-        <!--<td></td>-->
-        <!--<td></td>-->
-        <!--<td><h3></h3></td>-->
-        <!--</tr>-->
 
-        <!--{% for queries in allBasketItems %}-->
-        <!--<tr>-->
-        <!--<td>{{queries.products.name}}</td>-->
-        <!--<td></td>-->
-        <!--<td></td>-->
-        <!--<td><h3>£{{queries.products.price}}</h3></td>-->
-        <!--<td></td>-->
-        <!--<td></td>-->
-        <!--<td><h3><td>{{queries.quantity}}</td></h3></td>-->
-        <!--<td></td>-->
-        <!--<td></td>-->
-        <!--<td><h3><a href="{% url 'delete-item' id=queries.products.id%}">Delete item</a></h3></td>-->
-        <!--</tr>-->
-        <!--{% endfor %}-->
-
-        <!--<tr>-->
-        <!--<td><h3>Subtotal ({{ allBasketItems.count }} items):</h3></td>-->
-        <!--<td></td>-->
-        <!--<td></td>-->
-        <!--<td><h3>£{{ totalPrice }}</h3></td>-->
-        <!--<td></td>-->
-        <!--<td></td>-->
-        <!--<td><h3></h3></td>-->
-        <!--<td></td>-->
-        <!--<td></td>-->
-        <!--<td></td>-->
-        <!--<td><h3><a href="{% url 'empty-basket' %}">Empty Basket</a></h3></td>-->
-        <!--</tr>-->
-        <!--</table>-->
     </div>
 </div>
 {% endblock %}

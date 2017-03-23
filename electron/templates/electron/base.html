@@ -119,13 +119,10 @@
             }
         });
 
-
-        console.log("called"+ id);
-//        var timeArr;
         $.ajax({
             type: 'POST',
             url: '/add/'+id+'/',
-            success: function (data) {
+            success: function () {
                 alert('Added to basket');
             }
         });

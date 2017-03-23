@@ -125,3 +125,9 @@ AUTH_USER_MODEL ='electron.User'
 LOGIN_REDIRECT_URL = 'index'
 
 LOGIN_URL = 'login'
+
+EMAIL_HOST='smtp-mail.outlook.com'
+EMAIL_HOST_USER='electron_tempus@outlook.com'
+EMAIL_HOST_PASSWORD='happy123'
+EMAIL_PORT='587'
+EMAIL_USE_TLS= True

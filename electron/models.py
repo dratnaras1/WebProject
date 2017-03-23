@@ -8,13 +8,13 @@ from django.db import models
 # models
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, addressline1, addressline2, city, phone, password=None):
+    def create_user(self, email, first_name, last_name, addressline1, addressline2,postcode, city, phone, password=None):
 
         if not email:
             raise ValueError('User needs to have an email address')
 
         user = self.model(email=self.normalize_email(email), first_name=first_name, last_name=last_name,
-                          addressline1=addressline1, addressline2=addressline2, city=city, phone=phone,
+                          addressline1=addressline1, addressline2=addressline2,postcode=postcode, city=city, phone=phone,
                           password=password)
         user.set_password(password)
         user.save(using=self._db)
@@ -22,10 +22,10 @@ class UserManager(BaseUserManager):
 
         return user
 
-    def create_superuser(self, email, first_name, last_name, addressline1, addressline2, city, phone, password=None):
+    def create_superuser(self, email, first_name, last_name, addressline1, addressline2, postcode, city, phone, password=None):
 
         user = self.model(email=self.normalize_email(email), first_name=first_name, last_name=last_name,
-                          addressline1=addressline1, addressline2=addressline2, city=city, phone=phone,
+                          addressline1=addressline1, addressline2=addressline2, postcode=postcode, city=city, phone=phone,
                           password=password)
         user.set_password(password)
         user.is_admin = True
@@ -42,6 +42,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=50, blank=True)
     addressline1 = models.TextField(max_length=55, blank=True)
     addressline2 = models.TextField(max_length=55, blank=False)
+    postcode = models.TextField(max_length=55, blank=False)
     city = models.CharField(max_length=30, blank=True)
     phone = models.TextField(max_length=11, blank=True)
 

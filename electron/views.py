@@ -18,6 +18,7 @@ from .models import Product, Category, User
 from django.views import View
 from .forms import UserRegistration, UserLogin
 from django.views.generic import View
+from django.core.mail import send_mail
 # Create your views here.
 # hello test
 
@@ -173,3 +174,50 @@ def review(request, id):
         form = ReviewForm()
 
     return render(request, 'electron/review.html', {'form':form})
+
+def checkout(request):
+    basketItemsForUser = basket_controller.getItemsForUser(request)
+    totalPriceForUser = basket_controller.getTotalPriceForBasket(request)
+    template = loader.get_template('electron/shopping-basket.html')
+    context = {
+        'allBasketItems': basketItemsForUser,
+        'totalPrice': totalPriceForUser,
+    }
+    # place_order()
+    return render(request, 'electron/checkout.html',context)
+
+def place_order(request):
+    items = basket_controller.getItemsForUser(request)
+    totalPriceForUser = basket_controller.getTotalPriceForBasket(request)
+    send_mail_function(items,totalPriceForUser)
+
+    return HttpResponse('<h1>Order Placed</h1>')
+    # send_mail(
+    #     'New Site Visit Booking',
+    #     name + ' has booked a new appointment with you on ' + date +' at ' +time,
+    #     'tempus@itrsgroup.onmicrosoft.com',
+    #     ['dratnaras@itrsgroup.com'],
+    #     fail_silently=False,
+    #     )
+
+def send_mail_function(basket, total):
+    # print(items)
+
+    mail = "Thank you for your order with Electron.\n " \
+           "Your order has successfully been placed \n" \
+           "Your details are below: \n\n\n"
+
+    for item in basket:
+        product = Product.objects.get(id=item.products.id)
+        mail +product.name + " " + str(item.quantity)
+        print (product.name)
+        print (item.quantity)
+
+    send_mail(
+        'Order',
+        'hello',
+        'Here is the message.',
+        'electron_tempus@outlook.com',
+        ['danielr94@live.co.uk'],
+        fail_silently=False,
+    )
