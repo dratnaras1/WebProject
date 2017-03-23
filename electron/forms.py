@@ -21,3 +21,7 @@ class UserRegistration(forms.ModelForm):
 class UserLogin(forms.Form):
     email = forms.CharField(label='Email', widget=forms.TextInput, required=True)
     password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
+
+class ReviewForm(forms.Form):
+    rating = forms.IntegerField()
+    review = forms.CharField(widget=forms.Textarea)

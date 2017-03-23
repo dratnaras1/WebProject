@@ -1,54 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Your basket</title>
-</head>
-<body>
-    <a href="{% url 'index' %}">Home</a>
-    <h1>Your Basket - {{user.username}}</h1>
-    <table style="border-spacing: 20px;">
-        <tr>
-            <td><h3>Product</h3></td>
-            <td></td>
-            <td></td>
-            <td><h3>Price</h3></td>
-            <td></td>
-            <td></td>
-            <td><h3>Quantity</h3></td>
-            <td></td>
-            <td></td>
-            <td><h3></h3></td>
-        </tr>
+{% extends 'electron/base.html' %}
+{% block content %}
+<!-- Page Content -->
+<div class="container">
 
-        {% for queries in allBasketItems %}
-        <tr>
-            <td>{{queries.products.name}}</td>
-            <td></td>
-            <td></td>
-            <td><h3>£{{queries.products.price}}</h3></td>
-            <td></td>
-            <td></td>
-            <td><h3><td>{{queries.quantity}}</td></h3></td>
-            <td></td>
-            <td></td>
-            <td><h3><a href="{% url 'delete-item' id=queries.products.id%}">Delete item</a></h3></td>
-        </tr>
-        {% endfor %}
+    <div class="row">
+        <div class="container">
+            <header class="jumbotron hero-spacer">
+                <h1>Your Basket - {{user.first_name}}</h1>
+            </header>
+            <br><br>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th> Product</th>
+                    <th> Price</th>
+                    <th> Quantity</th>
+                </tr>
 
-        <tr>
-            <td><h3>Subtotal ({{ allBasketItems.count }} items):</h3></td>
-            <td></td>
-            <td></td>
-            <td><h3>£{{ totalPrice }}</h3></td>
-            <td></td>
-            <td></td>
-            <td><h3></h3></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td><h3><a href="{% url 'empty-basket' %}">Empty Basket</a></h3></td>
-        </tr>
-    </table>
-</body>
-</html>
+                </thead>
+                <tbody>
+                {% for queries in allBasketItems %}
+                <tr>
+                    <td>{{queries.products.name}}</td>
+                    <td>£{{queries.products.price}}</td>
+                    <td>{{queries.quantity}}</td>
+                    <td><a href="{% url 'delete-item' id=queries.products.id%}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td><b>Total ({{ allBasketItems.count }} items):</b></td>
+                    <td><b>£{{ totalPrice }}</b></td>
+                    <td></td>
+                    <td><a href="{% url 'empty-basket' %}">Empty Basket</a></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <!--<table style="border-spacing: 20px;">-->
+        <!--<tr>-->
+        <!--<td><h3>Product</h3></td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+        <!--<td><h3>Price</h3></td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+        <!--<td><h3>Quantity</h3></td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+        <!--<td><h3></h3></td>-->
+        <!--</tr>-->
+
+        <!--{% for queries in allBasketItems %}-->
+        <!--<tr>-->
+        <!--<td>{{queries.products.name}}</td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+        <!--<td><h3>£{{queries.products.price}}</h3></td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+        <!--<td><h3><td>{{queries.quantity}}</td></h3></td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+        <!--<td><h3><a href="{% url 'delete-item' id=queries.products.id%}">Delete item</a></h3></td>-->
+        <!--</tr>-->
+        <!--{% endfor %}-->
+
+        <!--<tr>-->
+        <!--<td><h3>Subtotal ({{ allBasketItems.count }} items):</h3></td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+        <!--<td><h3>£{{ totalPrice }}</h3></td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+        <!--<td><h3></h3></td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+        <!--<td></td>-->
+        <!--<td><h3><a href="{% url 'empty-basket' %}">Empty Basket</a></h3></td>-->
+        <!--</tr>-->
+        <!--</table>-->
+    </div>
+</div>
+{% endblock %}

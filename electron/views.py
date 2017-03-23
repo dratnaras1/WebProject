@@ -11,9 +11,8 @@ from django.http import HttpResponse
 from django.template import loader
 # from django.contrib.auth.models import User
 from .models import Basket
-import basket_controller
-
-
+from electron import basket_controller
+from electron.forms import ReviewForm
 from django.shortcuts import render
 from .models import Product, Category, User
 from django.views import View
@@ -83,6 +82,8 @@ def login_user(request):
     context = {'form': form, 'error': error, 'logged_in': False}
     return render(request, 'registration/login.html', context)
 
+
+@login_required
 def show_basket(request):
     basketItemsForUser = basket_controller.getItemsForUser(request)
     totalPriceForUser = basket_controller.getTotalPriceForBasket(request)
@@ -149,3 +150,26 @@ class UserFormView(View):
 
         else:
             return render(request, self.template_name, {'form': form, 'error': 'Error!'})
+
+def review(request, id):
+    product = Product.objects.filter(pk=id)
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ReviewForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            review = form.cleaned_data['review']
+            rating = form.cleaned_data['rating']
+
+            r = Review(product=Product(id=id), review=review, rating=rating, user=request.user)
+            r.save()
+
+            context = {'form':form}
+
+
+            return render(request, 'electron/review.html',  context)
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = ReviewForm()
+
+    return render(request, 'electron/review.html', {'form':form})
